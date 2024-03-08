@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #kills the infinity_and_beyond
 #get the pid
-id=$(pgrep -f "4-to_infinity_and_beyond")
+id=$(pgrep "bash 4-to_infinity_and_beyond" -f)
 #Terminate the infinate
 if [ -n "$PID" ];
 then
