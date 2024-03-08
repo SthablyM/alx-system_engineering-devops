@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+#kills the infinity_and_beyond
+#get the pid
+id=$(pgrep -f "4-to_infinity_and_beyond")
+#Terminate the infinate
+if [ -n "$PID" ];
+then
+	kill -15 "$id"	
+fi
