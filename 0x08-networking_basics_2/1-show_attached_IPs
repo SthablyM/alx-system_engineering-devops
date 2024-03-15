@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
 #Get a list of attached IP addresses using the 'ip' command
 
-ip_addresses=$(ip addr | grep 'inet ' | awk '{print $2}' | cut -d '/' -f 1)
+ifconfig -a | grep inet | cut -d: -f2 | cut -d" " -f1
