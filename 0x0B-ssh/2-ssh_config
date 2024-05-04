@@ -1,0 +1,7 @@
+#configuration file
+
+SendEnv LANG LC_*
+HashKnownHosts yes
+GSSAPIAuthentication yes
+PasswordAuthentication no
+IdentityFile ~/.ssh/school
