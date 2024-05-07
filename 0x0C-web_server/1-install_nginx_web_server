@@ -1,19 +1,25 @@
 #!/usr/bin/env bash
 
-# Update package index 
+# Update package index
 apt update
 
+# Install nginx
 apt install -y nginx
 
+# Ensure nginx is running
 service nginx start
 
+# Set nginx to listen on port 80
 sed -i 's/^listen\ \[::\]:80 default\_server;/listen\ 80\ default\_server;/' /etc/nginx/sites-available/default
 
+# Reload nginx configuration
 service nginx reload
 
+# Create a temporary index file with "Hello World!"
+echo "<html><body>Hello World!</body></html>" > /var/www/html/index.html
 
-echo -e "Hello World!"> /var/www/html/index.html
-
+# Restart nginx
 nginx -s reload
 
+# Exit script
 exit 0
