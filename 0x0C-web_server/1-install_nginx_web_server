@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+echo -e "installing nginx.\n"
+sudo apt-get update -y -qq
+sudo apt-get install nginx -y
+
+sed -i 's/listen 80 default_server;/listen 80;/g' /etc/nginx/sites-available/default
+killall -s HUP nginx || true
+# Create index.html file with "Hello World!" message
+echo "<html><head><title>Hello World!</title></head><body><h1>Hello World!</h1></body></html>" > /var/www/html/index.html
+# Output completion message
+echo "Nginx installed and configured. Visit http://<server_ip> to see 'Hello World!'"
