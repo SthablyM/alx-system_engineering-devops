@@ -1,34 +1,14 @@
 #!/usr/bin/env bash
+# bash script install nginx
 
-# Update package index
-sudo apt update
+apt-get update -y
+apt-get install nginx -y
 
-# Install nginx
-sudo apt install -y nginx
+mkdir /etc/nginx/html
 
-echo "<html><body>Hello World!</body></html>" | sudo tee /var/www/html/index.html >/dev/null
+ufw allow 'Nginx HTTP'
 
+echo "Hello World!" > /var/www/html/index.html
 
-echo "<html><head><title>Redirected</title><meta http-equiv=\"refresh\" content=\"0; url=http://example.com/\" /></head><body></body></html>" | sudo tee /var/www/html/redirect_page.html >/dev/null
-
-sudo bash -c 'cat <<EOF > /etc/nginx/sites-available/default
-server {
-    listen 80 default_server;
-    listen [::]:80 default_server;
-
-    root /var/www/html;
-    index index.html index.htm index.nginx-debian.html;
-
-    server_name _;
-
-    location /redirect_me {
-        return 301 http://\$host/redirect_page.html;
-    }
-
-    location / {
-        try_files \$uri \$uri/ =404;
-    }
-}
-EOF'
-sudo nginx -s reload
-
+sudo sed -i 'listen 80 default_server;/a rewrite ^\redirect_me https://facebook.com/ 301 permanent' /etc/nginx/sites-available/default
+service nginx start

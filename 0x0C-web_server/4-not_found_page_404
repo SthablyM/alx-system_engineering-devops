@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+echo -e "Updating and installing Nginx.\n"
+sudo apt-get update -y -qq
+sudo apt-get install nginx -y
+
+echo -e "\nSetting up.\n"
+
+sudo service nginx start
+
+sudo ufw allow 'Nginx HTTP'
+
+sudo chown -R "$USER":"$USER" /var/www/html
+sudo chmod -R 755 /var/www
+
+cp /var/www/html/index.nginx-debian.html /var/www/html/index.nginx-debian.html.bckp
+
+echo -e "Hello World!" > /var/www/html/index.nginx-debian.html
+
+sudo sed -i 'listen 80 default_server;/a rewrite ^\redirect_me https://facebook.com/ 301 permanent' /etc/nginx/sites-available/default
+
+echo "Ceci n'est pas une page" >> var/www/html/error_404.html
+
+sudo sed -i '/^}/i\\t\terror_page 404 /404.html;\n' /etc/nginx/sites-available/default
+
+sudo nginx -s reload
