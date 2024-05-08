@@ -10,13 +10,4 @@ ufw allow 'Nginx HTTP'
 
 echo "Hello World!" > /var/www/html/index.html
 
-echo "server {
-	listen 80 default_server;
-   listen [::]:80 default_server;
-   
-   root /etc/nginx/html;
-   index index.html index.nginx-debian.html;
-
-   server_name _;
-}" > /etc/nginx/sites-available/default
 service nginx start
