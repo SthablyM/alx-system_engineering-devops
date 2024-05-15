@@ -1,6 +1,5 @@
-#!/usr/bin/env bash
 
-# check if a command exists
+n to check if a command exists
 command_exists() {
     type "$1" &> /dev/null
 }
@@ -11,42 +10,47 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-# Check if Nginx is installed and available
+# Step 1: Check if Nginx is installed and available
 if ! command_exists nginx; then
     echo "Nginx is not installed. Installing Nginx..."
     apt-get update
     apt-get install nginx -y
 fi
 
-# Check if Nginx is running
+# Step 2: Check if Nginx is running
 if ! systemctl is-active --quiet nginx; then
     echo "Nginx is not running. Starting Nginx..."
     systemctl start nginx
 fi
 
-if netstat -tuln | grep ':80' > /dev/null; then
+# Step 3: Check if there is another process listening on port 80
+if ss -tln | awk '{print $4}' | grep -q ':80'; then
     echo "There is already a process listening on port 80."
-  
+
+    # Identify the process
     echo "Identifying process..."
-    pid=$(netstat -tuln | grep ':80' | awk '{print $7}' | cut -d '/' -f 1)
+    pid=$(ss -tln | grep ':80' | awk '{print $5}' | cut -d ',' -f 1)
     process=$(ps -p $pid -o comm=)
 
     echo "Stopping process $process (PID: $pid)..."
     kill $pid
 fi
 
-if netstat -tuln | grep ':80' > /dev/null; then
+# Step 4: Ensure that there are no other processes listening on port 80
+if ss -tln | awk '{print $4}' | grep -q ':80'; then
     echo "Failed to stop the process listening on port 80. Exiting."
     exit 1
 else
     echo "No other process is listening on port 80."
 fi
 
+# Step 5: Check if UFW (Uncomplicated Firewall) is installed and available
 if ! command_exists ufw; then
     echo "UFW (Uncomplicated Firewall) is not installed. Installing UFW..."
     apt-get install ufw -y
 fi
 
+# Step 6: Check firewall rules to make sure port 80 is allowed
 if ufw status | grep "80/tcp" | grep "ALLOW" > /dev/null; then
     echo "Port 80 is already allowed in the firewall."
 else
@@ -55,3 +59,4 @@ else
 fi
 
 echo "Configuration completed successfully."
+
