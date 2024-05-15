@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+apt-get update
+apt-get install nginx -y
+service nginx stop
+ufw allow 80/tcp
