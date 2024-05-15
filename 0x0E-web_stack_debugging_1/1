@@ -1,0 +1,16 @@
+Failed to connect to bus: No such file or directory
+Nginx is not running. Starting Nginx...
+Failed to connect to bus: No such file or directory
+./0-nginx_likes_port_80: line 27: netstat: command not found
+./0-nginx_likes_port_80: line 38: netstat: command not found
+No other process is listening on port 80.
+ERROR: problem running iptables: iptables v1.6.0: can't initialize iptables table `filter': Permission denied (you must be root)
+Perhaps iptables or your kernel needs to be upgraded.
+
+
+Port 80 is not allowed in the firewall. Adding rule...
+ERROR: initcaps
+[Errno 2] iptables v1.6.0: can't initialize iptables table `filter': Permission denied (you must be root)
+Perhaps iptables or your kernel needs to be upgraded.
+
+Configuration completed successfully.

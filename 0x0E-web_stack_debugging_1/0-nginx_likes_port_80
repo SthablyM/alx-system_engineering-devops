@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+# check if a command exists
+command_exists() {
+    type "$1" &> /dev/null
+}
+
+# Check if running as root
+if [ "$(id -u)" -ne 0 ]; then
+    echo "This script must be run as root. Exiting."
+    exit 1
+fi
+
+# Check if Nginx is installed and available
+if ! command_exists nginx; then
+    echo "Nginx is not installed. Installing Nginx..."
+    apt-get update
+    apt-get install nginx -y
+fi
+
+# Check if Nginx is running
+if ! systemctl is-active --quiet nginx; then
+    echo "Nginx is not running. Starting Nginx..."
+    systemctl start nginx
+fi
+
+if netstat -tuln | grep ':80' > /dev/null; then
+    echo "There is already a process listening on port 80."
+  
+    echo "Identifying process..."
+    pid=$(netstat -tuln | grep ':80' | awk '{print $7}' | cut -d '/' -f 1)
+    process=$(ps -p "$pid" -o comm=)
+
+    echo "Stopping process $process (PID: $pid)..."
+    kill "$pid"
+fi
+
+if netstat -tuln | grep ':80' > /dev/null; then
+    echo "Failed to stop the process listening on port 80. Exiting."
+    exit 1
+else
+    echo "No other process is listening on port 80."
+fi
+
+if ! command_exists ufw; then
+    echo "UFW (Uncomplicated Firewall) is not installed. Installing UFW..."
+    apt-get install ufw -y
+fi
+
+if ufw status | grep "80/tcp" | grep "ALLOW" > /dev/null; then
+    echo "Port 80 is already allowed in the firewall."
+else
+    echo "Port 80 is not allowed in the firewall. Adding rule..."
+    ufw allow 80/tcp
+fi
+
+echo "Configuration completed successfully."
