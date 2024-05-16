@@ -49,5 +49,3 @@ backend sthablym.tech_backend
         balance roundrobin
         server 524783-web-02 100.26.234.241:80 check
         server 524783-web-02 52.87.155.35:80 check
-        server 524783-lb-01 54.173.216.126:80 check
-
