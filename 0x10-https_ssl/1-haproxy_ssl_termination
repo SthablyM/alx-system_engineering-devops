@@ -37,18 +37,15 @@ defaults
         errorfile 504 /etc/haproxy/errors/504.http
 
 
-frontend ssl_443
-         bind *:443 ssl crt /etc/letsencrypt/live/www.sthablym.tech/fullchain.pem
-         reqadd X-Forwarded-Proto:\ https
-         default_backend web_servers
+frontend sthablym.tech-frontend
+    bind *:80
+    default_backend sthablym.tech-backend
 
-frontend sthablym.tech
-        bind 0:80
-        reqadd X-Forwarded-Proto:\ http
-        redirect scheme https code 301 if !{ ssl_fc }
-        default_backend web_servers
+frontend sthablym.tech-frontend-https
+    bind *:443 ssl crt /etc/haproxy/fullchain.pem
+    default_backend sthablym.tech-backend
 
-
-backend sthablym.tech
+backend sthablym.tech-backend
+    balance roundrobin
     server 524783-web-01 100.26.234.241:80 check
     server 524783-web-02 52.87.155.35:80 check
