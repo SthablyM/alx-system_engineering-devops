@@ -38,7 +38,7 @@ defaults
 
 
 frontend ssl_443
-         bind *:443 ssl crt /etc/haproxy/cert/cert.pem
+         bind *:443 ssl crt /etc/letsencrypt/live/www.sthablym.tech/fullchain.pem
          reqadd X-Forwarded-Proto:\ https
          default_backend web_servers
 
@@ -50,5 +50,5 @@ frontend sthablym.tech
 
 
 backend sthablym.tech
-    server sthablym01 100.26.234.241:80 check
-    server sthablym02 52.87.155.35:80 check
+    server 524783-web-01 100.26.234.241:80 check
+    server 524783-web-02 52.87.155.35:80 check
