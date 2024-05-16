@@ -37,6 +37,18 @@ defaults
         errorfile 504 /etc/haproxy/errors/504.http
 
 
+
+frontend ssl_443
+         bind *:443 ssl crt /etc/haproxy/cert/cert.pem
+         reqadd X-Forwarded-Proto:\ https
+         default_backend web_servers
+
+frontend sthablym.tech
+        bind 0:80
+        reqadd X-Forwarded-Proto:\ http
+        redirect scheme https code 301 if !{ ssl_fc }
+        default_backend web_servers
+
 backend sthablym.tech
     server sthablym01 100.26.234.241 check
     server sthablym02 52.87.155.35   check
