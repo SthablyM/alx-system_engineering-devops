@@ -1,5 +1,4 @@
-
-bal
+global
         log /dev/log    local0
         log /dev/log    local1 notice
         chroot /var/lib/haproxy
@@ -40,7 +39,7 @@ defaults
 
 frontend sthablym.tech
         bind 0:80
-        bind 0:443 ssl crt /etc/ssl/private/sthablym.tech.pem
+        bind 0:443 ssl crt /etc/letsencrypt/live/www.sthablym.tech/fullchain.pem
         http-request redirect scheme https code 301 unless { ssl_fc }
         option forwardfor
         default_backend sthably.tech_backend
