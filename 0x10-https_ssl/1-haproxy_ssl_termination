@@ -37,13 +37,6 @@ defaults
         errorfile 504 /etc/haproxy/errors/504.http
 
 
-frontend sthably.tech
-        bind 0:80
-        bind 0:443 ssl crt /etc/ssl/private/sthablym.tech.pem
-        http-request redirect scheme https code 301 unless { ssl_fc }
-        option forwardfor
-        default_backend sthably.tech_backend
-
 backend sthablym.tech
-    server 524783-web-01 100.26.234.241 check
-    server 524783-web-02 52.87.155.35   check
+    server sthablym01 100.26.234.241 check
+    server sthablym02 52.87.155.35   check
