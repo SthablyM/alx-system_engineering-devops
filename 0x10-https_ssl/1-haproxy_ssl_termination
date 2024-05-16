@@ -48,6 +48,7 @@ frontend sthablym.tech
         redirect scheme https code 301 if !{ ssl_fc }
         default_backend web_servers
 
+
 backend sthablym.tech
     server sthablym01 100.26.234.241 check
     server sthablym02 52.87.155.35   check
