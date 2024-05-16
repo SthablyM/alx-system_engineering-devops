@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-apt-get update
-apt-get install nginx -y
+#Using what you did for task #0, make your fix short and sweet
+sed -i 's/8080/80/g' /etc/nginx/sites-enabled/default
+pkill -1 nginx
 service nginx stop
-ufw allow 80/tcp
