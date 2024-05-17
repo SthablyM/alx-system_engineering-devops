@@ -36,10 +36,12 @@ defaults
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
 
+frontend sthablym.tech-frontend
+        bind *:80
+        redirect scheme https code 301 if !{ ssl_fc }
+
 frontend sthablym.tech-frontend-https
         bind 0:443 ssl crt /etc/haproxy/fullchain.pem
-        http-request redirect scheme https code 301 unless { ssl_fc }
-        option forwardfor
         default_backend sthablym.tech-backend
 
 backend sthablym.tech-backend
