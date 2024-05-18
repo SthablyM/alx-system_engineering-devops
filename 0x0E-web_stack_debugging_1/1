@@ -1,2 +1,24 @@
- * Restarting nginx nginx
-   ...done.
+Hit:1 http://security.ubuntu.com/ubuntu focal-security InRelease
+Hit:2 http://archive.ubuntu.com/ubuntu focal InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu focal-updates InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu focal-backports InRelease
+Hit:5 http://ppa.launchpad.net/brightbox/ruby-ng/ubuntu focal InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+nginx is already the newest version (1.18.0-0ubuntu1.4).
+0 upgraded, 0 newly installed, 0 to remove and 265 not upgraded.
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+System has not been booted with systemd as init system (PID 1). Can't operate.
+Failed to connect to bus: Host is down
+Synchronizing state of nginx.service with SysV service script with /lib/systemd/systemd-sysv-install.
+Executing: /lib/systemd/systemd-sysv-install enable nginx
+Nginx is running and listening on port 80
+./0-nginx_likes_port_80: line 41: ufw: command not found
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0   612    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+Port 80 is accessible
+Nginx setup complete and listening on port 80
