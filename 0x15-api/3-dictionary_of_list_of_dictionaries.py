@@ -1,29 +1,39 @@
 #!/usr/bin/python3
-"""script to export data in the JSON format."""
+
+"""
+Python script that exports data in the JSON format.
+"""
+
+from requests import get
 import json
-import requests
-
-
-def fetch_user_data():
-    url = 'https://jsonplaceholder.typicode.com/'
-    users = requests.get(url + 'users').json()
-    data_export = {}
-    for user in users:
-        user_id = user['id']
-        user_url = url + f'todos?userld ={user_id}'
-        todos = requests.get(user_url).json()
-        data_export[user_id] = [
-                {
-                    'task': todo.get('title'),
-                    'completed': todo.get('completed'),
-                    'username': user.get('username'),
-                }
-                for todo in todos
-                ]
-    return data_export
-
 
 if __name__ == "__main__":
-    data_export = fetch_user_data()
-    with open('todo_all_employees.json', 'w') as jsonfile:
-        json.dump(data_export, jsonfile, indent=4)
+    response = get('https://jsonplaceholder.typicode.com/todos/')
+    data = response.json()
+
+    row = []
+    responses = get('https://jsonplaceholder.typicode.com/users')
+    datas = responses.json()
+
+    data_export = {}
+
+    for j in datas:
+
+        row = []
+        for d in data:
+
+            data_export2 = {}
+
+            if j['id'] == d['userId']:
+
+                data_export2['username'] = j['username']
+                data_export2['task'] = d['title']
+                data_export2['completed'] = d['completed']
+                row.append(data_export2)
+
+        data_export[j['id']] = row
+
+    with open("todo_all_employees.json",  "w") as jfile:
+
+        json_obj = json.dumps(data_export)
+        jfile.write(json_obj)
