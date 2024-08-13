@@ -12,14 +12,12 @@ def recurse(subreddit, hot_list=None, after=None):
 
     url = f'https://www.reddit.com/r/{subreddit}/hot.json'
     headers = {
-        'User-Agent': 'MyRedditApp/1.0 (http://example.com;mathapelo"gmail.com)'
+        'User-Agent': 'your-app-name/v1.0 (by /u/your-username)'
     }
     
     params = {'after': after} if after else {}
     response = requests.get(url, headers=headers, params=params, allow_redirects=False)
-    if response.status_code == 404:
-        return
-    elif response.status_code != 200:
+    if response.status_code != 200:
         print("Error: Unable to fetch data.")
         return None
 
